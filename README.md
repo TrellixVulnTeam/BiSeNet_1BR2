@@ -10,4 +10,5 @@ bash /project/train/src_repo/start_train.sh
 
 ```shell
 bash tensorrt-python.sh
+python ji.py
 ```
