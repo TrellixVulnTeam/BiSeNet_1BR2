@@ -39,17 +39,19 @@ def get_data_loader(cfg, mode='train', distributed=True):
     if mode == 'train':
         trans_func = TransformationTrain(cfg.scales, cfg.cropsize)
         batchsize = cfg.ims_per_gpu
+        cache_images = cfg.cache
         annpath = cfg.train_im_anns
         shuffle = True
         drop_last = True
     elif mode == 'val':
         trans_func = TransformationVal()
         batchsize = cfg.eval_ims_per_gpu
+        cache_images = cfg.cache
         annpath = cfg.val_im_anns
         shuffle = False
         drop_last = False
 
-    ds = eval(cfg.dataset)(cfg.im_root, annpath, trans_func=trans_func, mode=mode)
+    ds = eval(cfg.dataset)(cfg.im_root, annpath, trans_func=trans_func, mode=mode, cache_images=cache_images)
 
     if distributed:
         assert dist.is_available(), "dist should be initialzed"
