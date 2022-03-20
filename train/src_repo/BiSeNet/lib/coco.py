@@ -47,8 +47,8 @@ from lib.base_dataset import BaseDataset
 
 class CocoStuff(BaseDataset):
 
-    def __init__(self, dataroot, annpath, trans_func=None, mode='train'):
-        super(CocoStuff, self).__init__(dataroot, annpath, trans_func, mode)
+    def __init__(self, dataroot, annpath, trans_func=None, mode='train', cache_images=False):
+        super(CocoStuff, self).__init__(dataroot, annpath, trans_func=trans_func, mode=mode, cache_images=cache_images)
         self.n_cats = 171 # 91 stuff, 91 thing, 11 of thing have no annos
         self.lb_ignore = 255
 
