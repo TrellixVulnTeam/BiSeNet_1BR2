@@ -8,6 +8,7 @@ cfg = dict(
     warmup_iters=1000,
     max_iter=90000,
     dataset='CocoStuff',
+    cache=True,
     im_root='./datasets/coco',
     train_im_anns='./datasets/coco/train.txt',
     val_im_anns='./datasets/coco/val.txt',
