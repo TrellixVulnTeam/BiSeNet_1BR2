@@ -59,7 +59,7 @@ class CityScapes(BaseDataset):
     '''
     '''
     def __init__(self, dataroot, annpath, trans_func=None, mode='train', cache_images=False):
-        super(Expressage, self).__init__(dataroot, annpath, trans_func=trans_func, mode=mode, cache_images=cache_images)
+        super(CityScapes, self).__init__(dataroot, annpath, trans_func=trans_func, mode=mode, cache_images=cache_images)
         self.n_cats = 19
         self.lb_ignore = 255
         self.lb_map = np.arange(256).astype(np.uint8)
