@@ -18,11 +18,12 @@ from lib.sampler import RepeatedDistSampler
 class BaseDataset(Dataset):
     '''
     '''
-    def __init__(self, dataroot, annpath, trans_func=None, mode='train'):
+    def __init__(self, dataroot, annpath, trans_func=None, mode='train', cache_images=False):
         super(BaseDataset, self).__init__()
         assert mode in ('train', 'val', 'test')
         self.mode = mode
         self.trans_func = trans_func
+        self.cache_images = cache_images
 
         self.lb_map = None
 
@@ -37,9 +38,11 @@ class BaseDataset(Dataset):
         assert len(self.img_paths) == len(self.lb_paths)
         self.len = len(self.img_paths)
 
+        self.ims, self.lbs = [None] * len(self.img_paths), [None] * len(self.img_paths)
+
     def __getitem__(self, idx):
         impth, lbpth = self.img_paths[idx], self.lb_paths[idx]
-        img, label = self.get_image(impth, lbpth)
+        img, label = self.get_image(impth, lbpth, idx)
         if not self.lb_map is None:
             label = self.lb_map[label]
         im_lb = dict(im=img, lb=label)
@@ -49,9 +52,14 @@ class BaseDataset(Dataset):
         img, label = im_lb['im'], im_lb['lb']
         return img.detach(), label.unsqueeze(0).detach()
 
-    def get_image(self, impth, lbpth):
-        img, label = cv2.imread(impth)[:, :, ::-1], cv2.imread(lbpth, 0)
-        assert img.shape[:2] == label.shape[:2], impth + " and " + lbpth + " size not equal!!!"
+    def get_image(self, impth, lbpth, idx):
+        if self.imgs[idx] == None:
+            img, label = cv2.imread(impth)[:, :, ::-1], cv2.imread(lbpth, 0)
+            assert img.shape[:2] == label.shape[:2], impth + " and " + lbpth + " size not equal!!!"
+            if self.cache_images:
+                self.imgs[idx], self.lbs[idx] = img, label
+        else:
+            img, label = self.imgs[idx], self.lbs[idx]
         return img, label
 
     def __len__(self):
