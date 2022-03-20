@@ -53,13 +53,13 @@ class BaseDataset(Dataset):
         return img.detach(), label.unsqueeze(0).detach()
 
     def get_image(self, impth, lbpth, idx):
-        if self.imgs[idx] == None:
+        if self.ims[idx] == None:
             img, label = cv2.imread(impth)[:, :, ::-1], cv2.imread(lbpth, 0)
             assert img.shape[:2] == label.shape[:2], impth + " and " + lbpth + " size not equal!!!"
             if self.cache_images:
-                self.imgs[idx], self.lbs[idx] = img, label
+                self.ims[idx], self.lbs[idx] = img, label
         else:
-            img, label = self.imgs[idx], self.lbs[idx]
+            img, label = self.ims[idx], self.lbs[idx]
         return img, label
 
     def __len__(self):
