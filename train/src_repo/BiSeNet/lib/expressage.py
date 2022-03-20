@@ -18,8 +18,8 @@ from lib.base_dataset import BaseDataset
 
 class Expressage(BaseDataset):
 
-    def __init__(self, dataroot, annpath, trans_func=None, mode='train'):
-        super(Expressage, self).__init__(dataroot, annpath, trans_func, mode)
+    def __init__(self, dataroot, annpath, trans_func=None, mode='train', cache_images=False):
+        super(Expressage, self).__init__(dataroot, annpath, trans_func=None, mode='train', cache_images=False)
         self.n_cats = 2 
         self.lb_ignore = 255
 
