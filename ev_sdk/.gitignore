@@ -168,12 +168,3 @@ __pycache__/
 *.max
 
 # End of https://www.gitignore.io/api/images
-
-
-core.*### C++ ###
-core.*
-core.*### C++ ###
-model_sim.onnx
-model.trt
-model_sim_576*1024.onnx
-model_sim.onnx.1
